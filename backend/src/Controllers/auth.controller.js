@@ -29,29 +29,13 @@ export const registerUser = async (req, res) => {
       password: hasedPassword,
     });
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-      },
-      config.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      },
-    );
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
     return res.status(201).json({
       message: "User Registerd successfully",
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
-      }, token:token,
+      }
     });
   } catch (err) {
     return res.status(500).json({
@@ -74,7 +58,7 @@ export const LoginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(404).json({ 
         message: "User not Found",
       });
     }
@@ -98,12 +82,13 @@ export const LoginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return res.status(200).json({
         message:"Login successful",
-        user,
-        token:token
+       
+       
     })
   } catch (err) {
     return res.status(500).json({
