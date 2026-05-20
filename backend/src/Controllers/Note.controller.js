@@ -12,7 +12,10 @@ export const createNote = async(req,res)=>{
 
         const { title,content,tags} = req.body;
         const note = await Note.create({
-            title,content,tags,user:req.user.id,
+            title,
+            content,
+            tags,
+            user:req.user.id,
         })
         
         return res.status(201).json({

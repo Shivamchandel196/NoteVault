@@ -1,81 +1,139 @@
-import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import NoteCard from "../components/NoteCard";
-import api from "../services/api";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import styles from "../style/Dashboard.module.css";
+import api from "../services/api";
+import styles from "../style/CreateNote.module.css";
 
-const Dashboard = () => {
-  const [notes, setNotes] = useState([]);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+const CreateNote = () => {
 
-  const getAllNotes = async () => {
-    try {
-      const res = await api.get(
-        `/notes/getall?search=${search}&page=${page}&limit=5`,
-      );
+  const navigate = useNavigate();
 
-      setNotes(res.data.notes);
-    } catch {
-      toast.error("Failed to fetch notes");
-    }
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    tags: "",
+  });
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const handleChange = (e) => {
+
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.value,
+    });
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      getAllNotes();
-    }, 500);
+  const handleSubmit =
+    async (e) => {
 
-    return () => clearTimeout(timer);
-  }, [search, page]);
+      e.preventDefault();
+
+      setLoading(true);
+
+      try {
+
+        const res =
+          await api.post(
+            "/notes",
+            {
+              title:
+                formData.title,
+
+              content:
+                formData.content,
+
+              tags:
+                formData.tags
+                  .split(",")
+                  .map((tag) =>
+                    tag.trim()
+                  )
+                  .filter(Boolean),
+            }
+          );
+
+        toast.success(
+          res.data.message
+        );
+
+        navigate("/dashboard");
+
+      } catch (error) {
+
+        toast.error(
+          error.response?.data
+            ?.message ||
+          "Failed to create note"
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
 
   return (
-    <div className={styles.dashboard}>
-      <Navbar search={search} setSearch={setSearch} />
+    <div className={styles.container}>
 
-      <div className={styles.container}>
-        <h1 className={styles.heading}>Your Notes</h1>
+      <div className={styles.card}>
 
-        {notes.length === 0 ? (
-          <p className={styles.emptyText}>No notes found</p>
-        ) : (
-          <>
-            <div className={styles.notesGrid}>
-              {notes.map((note) => (
-                <NoteCard
-                  key={note._id}
-                  note={note}
-                  getAllNotes={getAllNotes}
-                />
-              ))}
-            </div>
+        <h1 className={styles.heading}>
+          Create Note
+        </h1>
 
-            {/* Pagination */}
+        <form
+          onSubmit={handleSubmit}
+          className={styles.form}
+        >
 
-            <div className={styles.pagination}>
-              <button
-                className={styles.pageButton}
-                onClick={() => setPage(page - 1)}
-                disabled={page === 1}
-              >
-                Previous
-              </button>
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter title"
+            value={formData.title}
+            onChange={handleChange}
+            className={styles.input}
+            required
+          />
 
-              <span className={styles.pageText}>Page {page}</span>
+          <textarea
+            name="content"
+            placeholder="Write your note..."
+            value={formData.content}
+            onChange={handleChange}
+            className={styles.textarea}
+            required
+          />
 
-              <button
-                className={styles.pageButton}
-                onClick={() => setPage(page + 1)}
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
+          <input
+            type="text"
+            name="tags"
+            placeholder="react, mern, js"
+            value={formData.tags}
+            onChange={handleChange}
+            className={styles.input}
+          />
+
+          <button
+            type="submit"
+            className={styles.button}
+          >
+            {
+              loading
+                ? "Creating..."
+                : "Create Note"
+            }
+          </button>
+
+        </form>
+
       </div>
+
     </div>
   );
 };
 
-export default Dashboard;
+export default CreateNote;
