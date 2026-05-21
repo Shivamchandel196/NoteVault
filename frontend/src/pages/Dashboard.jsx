@@ -6,194 +6,90 @@ import toast from "react-hot-toast";
 import styles from "../style/Dashboard.module.css";
 
 const Dashboard = () => {
+  const [notes, setNotes] = useState([]);
 
-  const [notes, setNotes] =
-    useState([]);
+  const [search, setSearch] = useState("");
 
-  const [search, setSearch] =
-    useState("");
+  const [page, setPage] = useState(1);
 
-  const [page, setPage] =
-    useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const [totalPages,
-    setTotalPages] =
-    useState(1);
+  const getAllNotes = async () => {
+    try {
+      const res = await api.get(
+        `/notes/getall?search=${search}&page=${page}&limit=5`,
+      );
 
-  const getAllNotes =
-    async () => {
+      setNotes(res.data.notes);
 
-      try {
+      setTotalPages(res.data.totalPages);
+    } catch {
+      toast.error("Failed to fetch notes");
+    }
+  };
 
-        const res =
-          await api.get(
-            `/notes/getall?search=${search}&page=${page}&limit=5`
-          );
+  const handleDelete = async (id) => {
+    try {
+      const res = await api.delete(`/notes/delete/${id}`);
 
-        setNotes(
-          res.data.notes
-        );
+      toast.success(res.data.message);
 
-        setTotalPages(
-          res.data.totalPages
-        );
-
-      } catch {
-
-        toast.error(
-          "Failed to fetch notes"
-        );
-      }
-    };
-
-  const handleDelete =
-    async (id) => {
-
-      try {
-
-        const res =
-          await api.delete(
-            `/notes/delete/${id}`
-          );
-
-        toast.success(
-          res.data.message
-        );
-
-        getAllNotes();
-
-      } catch {
-
-        toast.error(
-          "Delete failed"
-        );
-      }
-    };
+      getAllNotes();
+    } catch {
+      toast.error("Delete failed");
+    }
+  };
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      getAllNotes();
+    }, 500);
 
-    const timer =
-      setTimeout(() => {
-
-        getAllNotes();
-
-      }, 500);
-
-    return () =>
-      clearTimeout(timer);
-
+    return () => clearTimeout(timer);
   }, [search, page]);
 
   return (
-    <div
-      className={
-        styles.dashboard
-      }
-    >
+    <div className={styles.dashboard}>
+      <Navbar search={search} setSearch={setSearch} />
 
-      <Navbar
-        search={search}
-        setSearch={
-          setSearch
-        }
-      />
+      <div className={styles.container}>
+        <h1 className={styles.heading}>Your Notes</h1>
 
-      <div
-        className={
-          styles.container
-        }
-      >
+        {notes.length === 0 ? (
+          <p>No notes found</p>
+        ) : (
+          <>
+            <div className={styles.notesGrid}>
+              {notes.map((note) => (
+                <NoteCard
+                  key={note._id}
+                  note={note}
+                  handleDelete={handleDelete}
+                  getAllNotes={getAllNotes}
+                />
+              ))}
+            </div>
 
-        <h1
-          className={
-            styles.heading
-          }
-        >
-          Your Notes
-        </h1>
+            {/* Pagination */}
+            <div className={styles.pagination}>
+              <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+                Prev
+              </button>
 
-        {
-          notes.length === 0 ? (
+              <span>
+                Page {page} of {totalPages}
+              </span>
 
-            <p>
-              No notes found
-            </p>
-
-          ) : (
-
-            <>
-              <div
-                className={
-                  styles.notesGrid
-                }
+              <button
+                onClick={() => setPage(page + 1)}
+                disabled={page === totalPages}
               >
-
-                {
-                  notes.map(
-                    (note) => (
-                     <NoteCard
-  key={note._id}
-  note={note}
-  handleDelete={handleDelete}
-  getAllNotes={getAllNotes}
-/>
-                    )
-                  )
-                }
-
-              </div>
-
-              {/* Pagination */}
-              <div
-                className={
-                  styles.pagination
-                }
-              >
-
-                <button
-                  onClick={() =>
-                    setPage(
-                      page - 1
-                    )
-                  }
-
-                  disabled={
-                    page === 1
-                  }
-                >
-                  Prev
-                </button>
-
-                <span>
-                  Page {page}
-                  {" "}of{" "}
-                  {
-                    totalPages
-                  }
-                </span>
-
-                <button
-                  onClick={() =>
-                    setPage(
-                      page + 1
-                    )
-                  }
-
-                  disabled={
-                    page ===
-                    totalPages
-                  }
-                >
-                  Next
-                </button>
-
-              </div>
-            </>
-          )
-        }
-
+                Next
+              </button>
+            </div>
+          </>
+        )}
       </div>
-
     </div>
   );
 };

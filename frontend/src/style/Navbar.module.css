@@ -1,0 +1,80 @@
+.navbar{
+    width: 100%;
+    min-height: 10vh;
+    background-color: tomato;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.logo{
+    font-size: 2rem;
+    color: white;
+    font-weight: 700;
+}
+.noteIcon{
+    font-size: 30px;
+    color: #8b9097;
+}
+
+.logoContainer{
+   color: white;
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   
+}
+
+
+
+.searchBox{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 0 20px;
+    border-radius: 8px;
+    height: 40px;
+     box-shadow: 0 4px 15px rgba(0,0,0,0.9);
+     transition: 0.3s ease;
+    
+}
+
+.searchInput{
+    border: none;
+    outline: none;
+    margin: 30px;
+    padding-right: 100px;
+    transform: scale(1.05);
+      
+}
+
+
+
+.createBtn,
+.logoutBtn{
+     background: linear-gradient(135deg);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
+    margin: 20px;
+     background-color: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.9);
+
+}
+
+.createBtn:hover,
+.logoutBtn:hover{
+    transform: scale(1.05);
+     box-shadow: 0 4px 15px rgba(0,0,0,0.9);
+
+}

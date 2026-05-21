@@ -39,7 +39,7 @@ const Login = () => {
    <div className={styles.container}>
   <div className={styles.card}>
 
-    <h1>Login</h1>
+    <h1 className="h1">Login</h1>
 
     <form onSubmit={handleSubmit}>
 
