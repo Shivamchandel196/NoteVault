@@ -1,0 +1,135 @@
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1e293b;
+  flex: 1;
+
+  /* Long text fix */
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.pinBtn {
+  border: none;
+  background: #eff6ff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.pinBtn:hover {
+  background: #dbeafe;
+  transform: scale(1.08);
+}
+
+.content {
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+
+  /* Long content fix */
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  /* 4 lines only */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  background: #dbeafe;
+  color: #1d4ed8;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.editBtn,
+.deleteBtn {
+  flex: 1;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editBtn {
+  background: #2563eb;
+  color: white;
+}
+
+.editBtn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.deleteBtn {
+  background: #ef4444;
+  color: white;
+}
+
+.deleteBtn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+  }
+}

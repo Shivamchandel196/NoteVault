@@ -86,7 +86,7 @@ const Dashboard = () => {
               >
                 Next
               </button>
-            </div>
+          </div>
           </>
         )}
       </div>

@@ -1,0 +1,105 @@
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  word-break: break-word;
+}
+
+.pinBtn {
+  border: none;
+  background: #eff6ff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s ease;
+}
+
+.pinBtn:hover {
+  background: #dbeafe;
+  transform: scale(1.05);
+}
+
+.content {
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.editBtn,
+.deleteBtn {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.editBtn {
+  background: #2563eb;
+  color: white;
+}
+
+.editBtn:hover {
+  background: #1d4ed8;
+}
+
+.deleteBtn {
+  background: #ef4444;
+  color: white;
+}
+
+.deleteBtn:hover {
+  background: #dc2626;
+}
